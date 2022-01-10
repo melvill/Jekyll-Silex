@@ -1,96 +1,41 @@
-//////////////////////////////////////////////////
-// Silex, live web creation
-// http://projects.silexlabs.org/?/silex/
-//
-// Copyright (c) 2012 Silex Labs
-// http://www.silexlabs.org/
-//
-// Silex is available under the GPL license
-// http://www.silexlabs.org/silex/silex-licensing/
-//////////////////////////////////////////////////
-
 $(function() {
-  var $win = $(window);
-
   // allow HTML5 tags used by Silex to be styled with CSS (polyfill)
   document.createElement('HEADER');
   document.createElement('VIDEO');
 
-  // store the body selector
-  // be careful since it will change after undo/redo or open file in Silex editor
+  // store jquery references
+  var $win = $(window);
+  var $doc = $(document);
   var $body = $('body');
 
-  /**
-   * window resize event
-   */
-  var siteWidth = parseInt($('meta[name=website-width]').attr('content'));
-  var resizeBody = function (event){
-    var $html = $('html');
-    // behavior which is not the same in Silex editor and outside the editor
-    if($body.hasClass('silex-runtime')) {
-      // if the site has a defined width and the window is smaller than this width, then
-      // scale the website to fit the window
+  // expose data to components
+  window.silex = window.silex || {};
+  // set directcly by the script tag:
+  // window.silex.data
 
-      var scrollRatio = $body.scrollTop() / $body.prop("scrollHeight");
+  // init the data updated later
+  window.silex.scale = 1;
+  window.silex.scroll = {top: 0, left: 0};
 
-      // reset transform
-      // needed to measure window width
-      $html.css({
-        'transform': '',
-        'transform-origin': '',
-        'min-width': '',
-      })
-      var winWidth = $win.width();
-
-      // handle resize when needed
-      if(winWidth < siteWidth) {
-        // scale the site
-        var breakPoint = winWidth < 480 ? 480 : siteWidth;
-        var ratio = winWidth / breakPoint;
-        $html.css({
-          'transform': 'scale(' + ratio + ')',
-          'transform-origin': '0 0',
-          'min-width': breakPoint + 'px',
-        })
-        // keep the scroll position when resizing,
-        // fixes a bug on mobile when reaching the bottom of page and the broser UI comes back and changes the viewport size
-        var scrollTarget = scrollRatio * $body.prop("scrollHeight");
-        $body.scrollTop(scrollTarget);
-      }
-    }
-    else {
-      // add space around the elements in the body
-      // I removed this because it bugs when there are elements with 100% width
-      //width += 50;
-      //height += 50;
-    }
-    // dispatch an event so that components can update
-    $(document).trigger('silex:resize');
+  // front end API
+  window.silex.getCurrentPage = function() {
+    var pageable = $body.pageable;
+    var currentPageName = pageable ? pageable().data()['silexlabs-pageable'].options.currentPage : $body.attr('data-current-page');
+    var currentPage = window.silex.data.pages.filter(function(el) { return el.id === currentPageName })[0];
+    return currentPage;
   };
 
-  /* this doesn't work? at least not in google bot mobile
-  // only outside silex editor when the window is small enough
-  // change viewport to enable mobile view scale mode
-  // for "pixel perfect" mobile version
-  // bellow 960, the window width will be seen as 480
-  if($body.hasClass('silex-runtime')) {
-    var winWidth = win.width();
-    if(winWidth < 960) {
-      $('meta[data-silex-viewport]').attr('content', 'width=479, user-scalable=no, maximum-scale=1');
-    }
-  }
-  */
+  // retro compatibility with old components
+  // TODO: check if we can remove this?
+  window.silex.resizeBody = function() {};
+
+  // ************************************
+  // the page system (with hash in the URL)
+  // ************************************
+  // the page system is only for preview and inside the editor
   if(!$body.hasClass('silex-published')) {
-    /**
-     * list all pages from the head section
-     * and open the 1st one by default
-     */
-    var firstPageName = null;
-    var pages = $('a[data-silex-type="page"]');
-    if (pages && pages.length>0){
-      var firstPage = pages[0];
-      firstPageName = firstPage.getAttribute('id');
-    }
+    // get the first page name from silex data
+    var firstPageName = window.silex.data.pages[0].link.href;
     /**
      * callback for change events
      * called when a page is opened
@@ -98,7 +43,8 @@ $(function() {
     $body.on('pageChanged', function (event, pageName) {
       // mark links to the current page as active
       $('[data-silex-href*="#!'+pageName+'"]').addClass('page-link-active');
-      $('[id*="'+pageName+'"]').addClass('page-link-active');
+      // $('[id*="'+pageName+'"]').addClass('page-link-active');
+
       // prevent iframe content from staying in the dom
       // this prevent a youtube video to continue playing while on another page
       // this is useful in chrome and not firefox since display:none does not reset iframe dom in chrome
@@ -112,8 +58,6 @@ $(function() {
           this.setAttribute('src', '');
         }
       });
-      // resize on page change (size will vary)
-      resizeBody();
     });
     /**
      * init page system
@@ -139,22 +83,119 @@ $(function() {
       }
     });
   }
-  /**
-   * mobile menu
-   */
-  $('.silex-runtime.enable-mobile .silex-pages .menu-button').click(function (e) {
-    e.stopPropagation();
-    $(document.body).toggleClass('show-mobile-menu');
-  });
-  $('.silex-runtime.enable-mobile').click(function (e) {
-    $(document.body).removeClass('show-mobile-menu');
-  });
-  // resize body at start
-  resizeBody();
 
-  // resize body on window resize
-  $win.resize(resizeBody);
+  // ************************************
+  // Resize system (scale down when screen is smaller than content)
+  // ************************************
+  if(!$body.hasClass('silex-editor')) {
+    onScroll();
+    onResize();
+    $win.resize(onResize);
+    $win.scroll(onScroll);
+  }
 
-  // expose for use by the widgets and Silex editor
-  window.resizeBody = resizeBody;
+  // cross browser get scroll (even IE)
+  function getScroll() {
+    var container = $(document.scrollingElement || 'html');
+    return {
+      left: container.scrollLeft(),
+      top: container.scrollTop()
+    }
+  }
+
+  function onResize() {
+    // if the site has a defined width and the window is smaller than this width, then
+    // scale the website to fit the window
+    // This happens also on mobile
+
+    // scale on mobile or on desktop only when needed
+    var ratio = getScaleRatio();
+    var scroll = getScroll();
+
+    // notify the components that the resize will occure
+    $doc.trigger('silex.preresize');
+
+    // expose computed data to components
+    window.silex.scrollTop = scroll.top/ratio;
+    window.silex.scrollLeft = scroll.left/ratio;
+    window.silex.scale = ratio;
+
+    if(ratio === 1) {
+      // reset scale
+      $body.css({
+        'transform': '',
+        'transform-origin': '',
+        'min-width': '',
+        'height': ''
+      });
+      // unscale some elements
+      $('.prevent-scale').css({
+        'transform': '',
+        'transform-origin': ''
+      })
+    }
+    else {
+      // scale the body
+      $body.css({
+        'transform': 'scale(' + ratio + ')',
+        'transform-origin': '0 0',
+        'min-width': getScaleBreakPoint() + 'px',
+        'height': Math.round(window.innerHeight * ratio), // min-height does not work here since content is bigger before transform
+      });
+      // unscale some elements
+      $('.prevent-scale').css({
+        'transform': 'scale(' + (1/ratio) + ')',
+        'transform-origin': '0 0'
+      })
+    }
+    $doc.trigger('silex.resize');
+  }
+
+  function onScroll() {
+    // simulate the fixed position
+    var ratio = getScaleRatio();
+    var scroll = getScroll();
+    $doc.trigger('silex.prescroll', {
+      scrollTop: scroll.top/ratio,
+      scrollLeft: scroll.left/ratio,
+      scale: ratio
+    });
+
+    var offsetTop = scroll.top / ratio;
+    var offsetLeft = scroll.left / ratio;
+
+    // expose computed data to components
+    window.silex.scrollTop = offsetTop;
+    window.silex.scrollLeft = offsetLeft;
+    window.silex.scale = ratio;
+
+    // update the body scale
+    $('.fixed').css({
+      'transform': 'translate(' + offsetLeft + 'px, ' + offsetTop + 'px)',
+      'transform-origin': '0 0'
+    });
+    $('.fixed.prevent-scale').css({
+      'transform': 'translate(' + offsetLeft + 'px, ' + offsetTop + 'px) scale(' + (1/ratio) + ')',
+      'transform-origin': '0 0'
+    });
+    $doc.trigger('silex.scroll');
+  }
+
+  // utility functions
+  function isBellowBreakPoint() {
+    return window.matchMedia('only screen and (max-width: 480px)').matches;
+  }
+  function getScaleRatio() {
+    var winWidth = $win.width();
+    if((window.silex.data.site.width && winWidth < window.silex.data.site.width) || isBellowBreakPoint()) {
+      // scale the site
+      var breakPoint = getScaleBreakPoint();
+      return winWidth / breakPoint;
+    }
+    return 1;
+  }
+  function getScaleBreakPoint() {
+    return isBellowBreakPoint() ? 480 : window.silex.data.site.width;
+  }
 });
+

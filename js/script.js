@@ -1,4 +1,7 @@
 
+
+    window.silex = window.silex || {}
+    window.silex.data = {"site":{"width":1200},"pages":[{"id":"page-landing","displayName":"landing","link":{"linkType":"LinkTypePage","href":"#!page-landing"},"canDelete":true,"canProperties":true,"canMove":true,"canRename":true}]}
 /*
 $(function() {
     var siteWidth = $('meta[name=website-width]').attr('content');
