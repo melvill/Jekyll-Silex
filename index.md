@@ -1,6 +1,6 @@
 ---
 layout: landing
-lang: en
-title: "Free Tools for Webmasters who do Marketing"
+lang: fr
+title: INTIME POLITIQUE
 description: "Webmasters are you marketing? Embrace the power of free tools and our community."
 ---
