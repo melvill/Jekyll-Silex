@@ -1,6 +1,6 @@
 ---
-lang: en
+lang: fr
 title: heading
 ---
-# Webmasters you're asked to do marketing?
-## Embrace the power of our free tools and community.
+# Intime Politique
+## Nos corps sont des champs de bataille
