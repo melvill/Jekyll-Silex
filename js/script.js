@@ -1,7 +1,7 @@
 
 
     window.silex = window.silex || {}
-    window.silex.data = {"site":{"width":1200},"pages":[{"id":"page-landing","displayName":"landing","link":{"linkType":"LinkTypePage","href":"#!page-landing"},"canDelete":true,"canProperties":true,"canMove":true,"canRename":true,"opened":false}]}
+    window.silex.data = {"site":{"width":1200},"pages":[{"id":"page-landing","displayName":"landing","link":{"linkType":"LinkTypePage","href":"#!page-landing"},"canDelete":true,"canProperties":true,"canMove":true,"canRename":true,"opened":false},{"id":"page--d-formations","displayName":"(dé)formations","link":{"linkType":"LinkTypePage","href":"#!page--d-formations"},"canDelete":true,"canRename":true,"canMove":true,"canProperties":true}]}
 /*
 $(function() {
     var siteWidth = $('meta[name=website-width]').attr('content');
