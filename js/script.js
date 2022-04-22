@@ -1,28 +1,4 @@
 
 
     window.silex = window.silex || {}
-    window.silex.data = {"site":{"width":1200},"pages":[{"id":"page-landing","displayName":"landing","link":{"linkType":"LinkTypePage","href":"#!page-landing"},"canDelete":true,"canProperties":true,"canMove":true,"canRename":true,"opened":false},{"id":"page--d-formations","displayName":"(dé)formations","link":{"linkType":"LinkTypePage","href":"#!page--d-formations"},"canDelete":true,"canRename":true,"canMove":true,"canProperties":true,"opened":false}]}
-/*
-$(function() {
-    var siteWidth = $('meta[name=website-width]').attr('content');
-    function doResize() {
-        var viewportWidth = $(window).width();
-        if(viewportWidth > 480 && viewportWidth < siteWidth) {
-            $('body').css({
-              'transform': 'scale(' + (viewportWidth / 1200) + ')',
-              'transform-origin': '0 0',
-            })
-        }
-        else {
-            $('body').css({
-              'transform': '',
-              'transform-origin': '',
-            })
-        }
-    }
-    if(siteWidth) {
-        $(window).resize(doResize);
-        doResize();
-    }
-});
-*/
+    window.silex.data = {"site":{"width":1200},"pages":[{"id":"page-home","displayName":"Home","link":{"linkType":"LinkTypePage","href":"#!page-home"},"canDelete":true,"canProperties":true,"canMove":true,"canRename":true,"opened":false},{"id":"page-vacations","displayName":"Vacations","link":{"linkType":"LinkTypePage","href":"#!page-vacations"},"canDelete":true,"canProperties":true,"canMove":true,"canRename":true,"opened":false},{"id":"page-flights","displayName":"Flights","link":{"linkType":"LinkTypePage","href":"#!page-flights"},"canDelete":true,"canProperties":true,"canMove":true,"canRename":true,"opened":false},{"id":"page-hotels","displayName":"Hotels","link":{"linkType":"LinkTypePage","href":"#!page-hotels"},"canDelete":true,"canProperties":true,"canMove":true,"canRename":true,"opened":false},{"id":"page-contact","displayName":"Contact","link":{"linkType":"LinkTypePage","href":"#!page-contact"},"canDelete":true,"canProperties":true,"canMove":true,"canRename":true,"opened":false}]}
