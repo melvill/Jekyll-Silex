@@ -121,26 +121,26 @@
 })();
 </script>
 </div></div><a class="editable-style silex-id-1537545843556-0 container-element" href="./"><div class="editable-style silex-id-1537542841131-2 text-element header"><div class="silex-element-content normal"><h1>INTIME POLITIQUE<br></h1></div></div><div class="editable-style image-element silex-id-1650642853819-0"><img src="assets/16px-Water_drop.svg.png"></div></a><div class="editable-style silex-id-1537543262916-6 text-element header hide-on-mobile"><div class="silex-element-content normal"><p><a href="./" class="">Home</a> <a href="association.html" class="">L'association</a> <a href="activit-s.html">Activités</a> <a href="adh-sion.html" class="">Adhésion</a> <a href="contact.html" class="page-link-active">Contact</a></p></div></div></div>
-    </header><section class="container-element editable-style silex-id-1545056415237-3 section-element prevent-resizable page-contact paged-element paged-element-visible"><div class="editable-style silex-id-1545056415233-2 container-element silex-element-content website-width"><div class="editable-style text-element text-style-2 silex-id-1545056530213-6"><div class="silex-element-content normal"><h2>Contact Us<br></h2></div>﻿﻿</div><div class="editable-style silex-id-1548870370847-0 html-element silex-component silex-component-map silex-use-height-not-minheight silex-element-content-full-height"><div class="silex-element-content"><div id="mapdiv_1657639844775_121" class="map"><div class="ol-viewport" style="position: relative; overflow: hidden; width: 100%; height: 100%;"><div style="position: absolute; width: 100%; height: 100%; z-index: 0; display: none;" class="ol-unselectable ol-layers"></div><div style="position: absolute; z-index: 0; width: 100%; height: 100%;" class="ol-overlaycontainer"></div><div style="position: absolute; z-index: 0; width: 100%; height: 100%;" class="ol-overlaycontainer-stopevent"><div class="ol-zoom ol-unselectable ol-control"><button class="ol-zoom-in" type="button" title="Zoom in">+</button><button class="ol-zoom-out" type="button" title="Zoom out">−</button></div><div class="ol-rotate ol-unselectable ol-control ol-hidden"><button class="ol-rotate-reset" type="button" title="Reset rotation"><span class="ol-compass">⇧</span></button></div><div class="ol-attribution ol-unselectable ol-control ol-collapsed" style="display: none;"><ul></ul><button type="button" title="Attributions"><span>i</span></button></div></div></div></div>
+    </header><section class="container-element editable-style silex-id-1545056415237-3 section-element prevent-resizable page-contact paged-element paged-element-visible"><div class="editable-style silex-id-1545056415233-2 container-element silex-element-content website-width"><div class="editable-style text-element text-style-2 silex-id-1545056530213-6"><div class="silex-element-content normal"><h2>Contact Us<br></h2></div>﻿﻿</div><div class="editable-style silex-id-1548870370847-0 html-element silex-component silex-component-map silex-use-height-not-minheight silex-element-content-full-height"><div class="silex-element-content"><div id="mapdiv_1657696143199_452" class="map"><div class="ol-viewport" style="position: relative; overflow: hidden; width: 100%; height: 100%;"><div style="position: absolute; width: 100%; height: 100%; z-index: 0;" class="ol-unselectable ol-layers"><div class="ol-layer" style="position: absolute; width: 100%; height: 100%;"><canvas style="position: absolute; left: 0px; transform-origin: left top 0px; transform: matrix(1, 0, 0, 1, 0, 0);" width="777" height="496"></canvas></div></div><div style="position: absolute; z-index: 0; width: 100%; height: 100%;" class="ol-overlaycontainer"></div><div style="position: absolute; z-index: 0; width: 100%; height: 100%;" class="ol-overlaycontainer-stopevent"><div class="ol-zoom ol-unselectable ol-control"><button class="ol-zoom-in" type="button" title="Zoom in">+</button><button class="ol-zoom-out" type="button" title="Zoom out">−</button></div><div class="ol-rotate ol-unselectable ol-control ol-hidden"><button class="ol-rotate-reset" type="button" title="Reset rotation"><span class="ol-compass" style="transform: rotate(0rad);">⇧</span></button></div><div class="ol-attribution ol-unselectable ol-control ol-uncollapsible"><ul><li>© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors.</li></ul><button type="button" title="Attributions"><span>»</span></button></div></div></div></div>
 
 <script>
 
 
-function init_1657639844775_121() {
+function init_1657696143199_452() {
     if(typeof(ol) === 'undefined') {
         // console.warn('Map not ready, restart later')
         // wait for dependencies to be loaded
-        setTimeout(init_1657639844775_121, 1000);
+        setTimeout(init_1657696143199_452, 1000);
         return;
     }
 
     // empty the div before adding the map again
-    $('#mapdiv_1657639844775_121').empty();
+    $('#mapdiv_1657696143199_452').empty();
 
     // apply position and zoom
     // from map URL http://www.openstreetmap.org/#map=18/48.88680/2.34235&layers=C
-    // var params = 'http://www.openstreetmap.org/#map=18/48.87378/2.29489&layers=C'.match(/.*map=([0-9]*)\/(.*)\/(.*)&layers=(.)/);
-    var params = 'http://www.openstreetmap.org/#map=18/48.87378/2.29489&layers=C'.match(/.*map=([0-9]*)\/(.*)\/(.*)/);
+    // var params = 'https://www.openstreetmap.org/search?query=crest%2C%20drome#map=13/44.7313/5.0212&layers=C'.match(/.*map=([0-9]*)\/(.*)\/(.*)&layers=(.)/);
+    var params = 'https://www.openstreetmap.org/search?query=crest%2C%20drome#map=13/44.7313/5.0212&layers=C'.match(/.*map=([0-9]*)\/(.*)\/(.*)/);
     if(params) {
         var zoom = parseFloat(params[1]);
         var lat = parseFloat(params[2]);
@@ -153,7 +153,7 @@ function init_1657639844775_121() {
               source: new ol.source.OSM()
             })
           ],
-          target: 'mapdiv_1657639844775_121',
+          target: 'mapdiv_1657696143199_452',
           view: new ol.View({
             center: center,
             zoom: zoom
@@ -162,33 +162,33 @@ function init_1657639844775_121() {
         
     }
 }
-init_1657639844775_121();
+init_1657696143199_452();
 // $(document).on('silex.resize', function() {
-//     $('#mapdiv_1657639844775_121').empty();
-//     init_1657639844775_121();
+//     $('#mapdiv_1657696143199_452').empty();
+//     init_1657696143199_452();
 // });
 
 </script>
-</div></div><div class="editable-style silex-id-1548871340538-0 html-element silex-component silex-component-form silex-use-height-not-minheight silex-element-content-full-height"><div class="silex-element-content"><form id="id_1657639844781_146" action="https://formspree.io/your@email.com" method="POST">
+</div></div><div class="editable-style silex-id-1548871340538-0 html-element silex-component silex-component-form silex-use-height-not-minheight silex-element-content-full-height"><div class="silex-element-content"><form id="id_1657696324172_257" action="https://formspree.io/contact@intimepolitique.xyz" method="POST">
   
   <div>
-    <label for="field1">Name</label>
+    <label for="field1">Nom / Structure</label>
     <input type="text" required="" id="field1" name="field1" placeholder="Your name">
   </div>
   
   
   <div>
-    <label for="field2">Your email adress</label>
+    <label for="field2">Adresse mail</label>
     <input type="text" required="" id="field2" name="field2" placeholder="your@email.com">
   </div>
   
   
   <div class="fill-vertical">
-    <label for="field3">Your message</label>
+    <label for="field3">Votre message</label>
     <textarea required="" id="field3" name="field3" placeholder="What you have to say"></textarea>
   </div>
   
-  <input type="submit" value="Send">
+  <input type="submit" value="Envoyer">
 </form>
 
 
